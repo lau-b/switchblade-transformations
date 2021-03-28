@@ -1,0 +1,116 @@
+version: 2
+
+models:
+  - name: bikes_at_stations
+    description: Creates a row for each bike stored in a station at a given time.
+    columns:
+      - name: point_in_time
+        description: the time at which the kvb api was called
+        tests:
+          - not_null
+      - name: bike_number
+        description: identifier of a bike
+        tests:
+          - not_null
+      - name: location
+        description: name of the kvb station
+        tests:
+          - accepted_values:
+              values: ['Uni Bibliothek','Seidmacherinnengäßchen','Rheinenergie Parkgürtel','Mobilstation Josephstraße','Obenmarspforten','Stegerwaldsiedlung','Humanwissenschaftliche Fakultät','Mobilstation Severinswall','Neusser Straße / Gürtel','KVB Hauptverwaltung','RTL Picassoplatz','Wilhelm-Sollmann-Straße','Maritim ','Leonardo Royal Hotel','Gürzenich','Uni Boulevard','Große Sandkaul','Fröbelplatz','Bahnhof Mülheim','Marspfortengasse','Uniklinik','Charles-de-Gaulle Platz']
+      - name: is_at_station
+        description: boolean information that indicates a bike is at a station. Will be useful in a later analysis. In this case its always `True`.
+        tests:
+          - accepted_values:
+              values: ['True']
+      - name: longitude
+        description: longitude value taken from the station
+        tests:
+          - not_null
+      - name: longitude
+        description: longitude value taken from the station
+        tests:
+          - not_null
+
+  - name: bikes_in_street
+    description: clean up and small enrichment of the bike data
+    columns:
+      - name: point_in_time
+        description: the time at which the kvb api was called
+        tests:
+          - not_null
+      - name: bike_number
+        description: identifier of a bike
+        tests:
+          - not_null
+      - name: location
+        description: default value 'street'
+        tests:
+           - accepted_values:
+              values: ['street']
+      - name: is_at_station
+        description: boolean indicator that shows if this bike is at a station. In this case its always False, meaning it is in the streets.
+        tests:
+           - accepted_values:
+              values: ['False']
+      - name: longitude
+        description: longitude value of a bike
+        tests:
+          - not_null
+      - name: latitude
+        description: latitude value of a bike
+        tests:
+          - not_null
+
+  - name: all_bikes
+    description: Combines bikes_in_street and bikes_at_stations into a single table
+    columns:
+      - name: point_in_time
+        description: the time at which the kvb api was called
+        tests:
+          - not_null
+      - name: bike_number
+        description: identifier of a bike
+        tests:
+          - not_null
+      - name: location
+        description: If a bike is kept at at station, the station name will show up, otherwise the location is called 'street'
+        tests:
+           - not_null
+      - name: is_at_station
+        description: boolean indicator that shows if this bike is at a station. In this case its always False, meaning it is in the streets.
+        tests:
+           - accepted_values:
+              values: [False, True]
+      - name: longitude
+        description: longitude value of a bike
+        tests:
+          - not_null
+      - name: latitude
+        description: latitude value of a bike
+        tests:
+          - not_null
+
+
+  - name: bikes_single_locations
+    description: >
+      Entfernt die Pseudo-doppelten Einträge aus `all_bikes`.
+      Da in einem 15-minuetigen Interval die Geolocation aller Raeder geholt werden, wird hier
+      der erste und letzte Timestamp je Longitude- und Latitudewert selektiert. Somit kann diese
+      Tabelle verwendet werden, um die Bewegungsdaten bzw. Routen der einzelnen Raeder zu errechnen.
+    columns:
+      - name: bike_number
+        tests:
+        - not_null
+      - name: longitude
+        tests:
+        - not_null
+      - name: latitude
+        tests:
+        - not_null
+      - name: first_seen_at
+        tests:
+          - not_null
+      - name: last_seen_at
+        tests:
+          - not_null
+
