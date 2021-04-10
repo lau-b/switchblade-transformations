@@ -1,10 +1,10 @@
-SELECT
+select
     bike_number,
     location_name,
     first_seen_at,
     last_seen_at,
-    longitude AS starting_long,
-    latitude AS starting_lat,
-    LEAD(longitude) OVER (PARTITION BY bike_number) AS destination_lng,
-    LEAD(latitude) OVER (PARTITION BY bike_number) AS destination_lat
-FROM {{ ref('bikes_single_locations') }}
+    longitude as starting_long,
+    latitude as starting_lat,
+    LEAD(longitude) over (partition by bike_number) as destination_lng,
+    LEAD(latitude) over (partition by bike_number) as destination_lat
+from {{ ref('bikes_single_locations') }}

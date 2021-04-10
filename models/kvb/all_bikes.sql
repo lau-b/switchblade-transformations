@@ -1,17 +1,17 @@
-SELECT
+select
     point_in_time,
     bike_number,
     location_name,
     is_at_station,
     longitude,
     latitude
-FROM {{ ref('bikes_at_stations') }}
-UNION ALL
-SELECT
+from {{ ref('bikes_at_stations') }}
+union all
+select
     point_in_time,
     bike_number,
     location_name,
     is_at_station,
     longitude,
     latitude
-FROM {{ ref('bikes_in_street') }}
+from {{ ref('bikes_in_street') }}

@@ -1,8 +1,8 @@
-SELECT
-    point_in_time AS point_in_time,
-    'street' AS location_name,
-    False AS is_at_station,
-    longitude AS longitude,
-    latitude AS latitude,
-    bike_numbers AS bike_number
-FROM bikes
+select
+    point_in_time as point_in_time,
+    'street' as location_name,
+    False as is_at_station,
+    longitude as longitude,
+    latitude as latitude,
+    bike_numbers as bike_number
+from bikes
