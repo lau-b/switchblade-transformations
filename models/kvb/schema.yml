@@ -16,7 +16,7 @@ models:
         description: name of the kvb station
         tests:
           - accepted_values:
-              values: ['Uni Bibliothek','Seidmacherinnengäßchen','Rheinenergie Parkgürtel','Mobilstation Josephstraße','Obenmarspforten','Stegerwaldsiedlung','Humanwissenschaftliche Fakultät','Mobilstation Severinswall','Neusser Straße / Gürtel','KVB Hauptverwaltung','RTL Picassoplatz','Wilhelm-Sollmann-Straße','Maritim ','Leonardo Royal Hotel','Gürzenich','Uni Boulevard','Große Sandkaul','Fröbelplatz','Bahnhof Mülheim','Marspfortengasse','Uniklinik','Charles-de-Gaulle Platz']
+              values: ['Riehler Str.','Uni Bibliothek','Seidmacherinnengäßchen','Rheinenergie Parkgürtel','Mobilstation Josephstraße','Obenmarspforten','Stegerwaldsiedlung','Humanwissenschaftliche Fakultät','Mobilstation Severinswall','Neusser Straße / Gürtel','KVB Hauptverwaltung','RTL Picassoplatz','Wilhelm-Sollmann-Straße','Maritim ','Leonardo Royal Hotel','Gürzenich','Uni Boulevard','Große Sandkaul','Fröbelplatz','Bahnhof Mülheim','Marspfortengasse','Uniklinik','Charles-de-Gaulle Platz']
       - name: is_at_station
         description: boolean information that indicates a bike is at a station. Will be useful in a later analysis. In this case its always `True`.
         tests:
@@ -45,7 +45,7 @@ models:
       - name: location_name
         description: default value 'street'
         tests:
-           - accepted_values:
+          - accepted_values:
               values: ['street']
       - name: is_at_station
         description: boolean indicator that shows if this bike is at a station. In this case its always False, meaning it is in the streets.
@@ -90,7 +90,6 @@ models:
         tests:
           - not_null
 
-
   - name: bikes_single_locations
     description: >
       Entfernt die Pseudo-doppelten Einträge aus `all_bikes`.
@@ -113,4 +112,29 @@ models:
       - name: last_seen_at
         tests:
           - not_null
-
+  - name: bike_routes
+    description: >
+      Erstellt mit Hilfe von `bikes_single_locations` eine Liste von Routen.
+      Diese bestehen aus den Start- und Zielkoordinaten, sowie die Zeitpunkt der Beginn der Fahrt
+      `(bikes_single_locations.last_seen_at)`.
+      Für jedes Rad gibt es einen Eintrag mit Zielkoordinaten NULL, das liegt daran, dass es hier
+      noch keine Route gibt, da das Rad aktuell an letztem bekannten Ort steht.
+    columns:
+      - name: bike_number
+        tests:
+          - not_null
+      - name: location_name
+        tests:
+          - accepted_values:
+              values: ['street','Riehler Str.','Uni Bibliothek','Seidmacherinnengäßchen','Rheinenergie Parkgürtel','Mobilstation Josephstraße','Obenmarspforten','Stegerwaldsiedlung','Humanwissenschaftliche Fakultät','Mobilstation Severinswall','Neusser Straße / Gürtel','KVB Hauptverwaltung','RTL Picassoplatz','Wilhelm-Sollmann-Straße','Maritim ','Leonardo Royal Hotel','Gürzenich','Uni Boulevard','Große Sandkaul','Fröbelplatz','Bahnhof Mülheim','Marspfortengasse','Uniklinik','Charles-de-Gaulle Platz']
+      - name: route_started_at
+        tests:
+          - not_null
+      - name: starting_lng
+        tests:
+          - not_null
+      - name: starting_lat
+        tests:
+          - not_null
+      - name: destination_lng
+      - name: destination_lat
