@@ -12,7 +12,7 @@ models:
         description: identifier of a bike
         tests:
           - not_null
-      - name: location
+      - name: location_name
         description: name of the kvb station
         tests:
           - accepted_values:
@@ -42,7 +42,7 @@ models:
         description: identifier of a bike
         tests:
           - not_null
-      - name: location
+      - name: location_name
         description: default value 'street'
         tests:
            - accepted_values:
@@ -72,7 +72,7 @@ models:
         description: identifier of a bike
         tests:
           - not_null
-      - name: location
+      - name: location_name
         description: If a bike is kept at at station, the station name will show up, otherwise the location is called 'street'
         tests:
            - not_null
