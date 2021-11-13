@@ -34,4 +34,4 @@ clean-targets:         # directories to be removed by `dbt clean`
 models:
   switchblade:
       # Applies to all files under models/example/
-      materialized: view
+      materialized: view # TODO Change it to some view that doesnt block importing new data
